@@ -8,6 +8,57 @@ Alternatively, if you cannot be bothered with Python and are somewhat familiar w
 
 ## Example CV
 
+```yaml
+personal info:
+    name: Shawn Stick
+    photo path: pic.png
+    address: |
+        Main Street 5
+        Place-to-be
+    email: shawn.stick@emailprovider.com
+    phone: 12345678
+    linkedin: /in/sticksh
+    github: ShawnTheStick
+    about me: |
+        People consider me flat but are still drawn to me
+
+qualities:
+    - Core Competencies:
+        - Precision: .8
+        - Communication: .9
+    - Skills:
+        - Juggling: .80
+        - Air Guitar: .55
+    - Languages:
+        - English: .8
+        - Chinese: .25
+
+vita:
+    - Experience:
+        - Jobless:
+            at: Home
+            from: 2002
+            to: today
+        - Dog walker:
+            at: Local Park
+            from: 2000
+            to: 2002
+            doing:
+                - Acquiring customers through word-of-mouth
+                - Chasing loose dogs
+    - Education:
+        - PhD:
+            at: School of Hard Knocks
+            from: 1997
+            to: 1999
+            doing:
+                - Eating pizza
+        - Master's:
+            at: Kindergarden
+            from: 1995
+            to: 1996
+```
+
 <img src="./src/example.png" style="width: 100%; height: auto; max-height: 700px">
 
 ## Overview of Repository
