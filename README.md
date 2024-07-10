@@ -64,19 +64,19 @@ vita:
 ## Overview of Repository
 
 ```shell
-├── input # input folder containing the base example
-│   ├── example.yaml # YAML file for building an example CV
-│   └── pic.png # image needed for the example.yaml
-├── src # folder containing source codes, LaTeX templates, etc
-│   ├── icons # folder of icons embedded into the template
-│   ├── example.png # image of the example output for README
-│   ├── latex_cv.py
-│   └── CV_template.tex
-├── output # default output folder
-├── main.py # entry point to the python program flow
-├── CV_config.yaml # configuration file for input and output folder
-├── README.md
-└── requirements.txt
+├── input                  # input folder containing the base example
+│   ├── example.yaml         # YAML file for building an example CV
+│   └── pic.png              # image needed for the example.yaml
+├── src                    # folder containing source codes, LaTeX templates, etc
+│   ├── icons                # folder of icons embedded into the template
+│   ├── example.png          # image of the example output for README
+│   ├── latex_cv.py          # Python module which transforms and compiles the template
+│   └── CV_template.tex      # LaTeX template getting transformed
+├── output               # default output folder
+├── main.py              # entry point to the python program flow
+├── CV_config.yaml       # configuration file for input and output folder
+├── README.md            # read-me file
+└── requirements.txt     # requirements for running and developing the code
 ```
 
 ## Quickstart
