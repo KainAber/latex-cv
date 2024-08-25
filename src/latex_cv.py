@@ -1,6 +1,6 @@
 import logging
-import os
 import re
+import shutil
 import subprocess  # nosec
 from pathlib import Path
 from typing import Any
@@ -31,7 +31,10 @@ def sub(pattern: str, repl: str, string: str, flags: Any = 0, log: bool = True) 
 
     # Log if no subs were performed
     if n_subs == 0 and log:
-        logger.warning(f"No substitutions performed for {pattern}")
+        logger.warning(
+            f"No substitutions performed for pattern '{pattern}' "
+            f"and replacement '{repl}'"
+        )
 
     return res_string
 
@@ -114,11 +117,67 @@ def create_CV() -> None:
         CV_template = file.read()
 
     ########################################################
-    #                 ADJUST COLOR PALETTE                 #
+    #                 CREATE AN IMG FOLDER                 #
+    ########################################################
+
+    # Define a folder path for LaTeX resources
+    img_output_folder_path = output_folder_path / "img"
+
+    # Create icons folder if it does not exist already
+    if not img_output_folder_path.exists():
+        logger.info(f"Creating resource folder at {img_output_folder_path}")
+        img_output_folder_path.mkdir()
+
+    ########################################################
+    #                  COPY PROFILE IMAGE                  #
+    ########################################################
+
+    # Construct path to profile picture
+    photo_path_relative = Path(CV_dict.get("personal info").get("photo path"))
+    photo_path_absolute = (input_folder / photo_path_relative).resolve()
+
+    shutil.copy(photo_path_absolute, img_output_folder_path / photo_path_absolute.name)
+
+    ########################################################
+    #                 CREATE COLORED ICONS                 #
     ########################################################
 
     # Read color dict
     color_dict = CV_dict.get("colors")
+
+    # Get left side accent color
+    left_side_accent_color = color_dict.get("left side accent")
+
+    # icon folder path
+    icon_folder_path = project_src_folder_path / "icons"
+
+    # Get the list of files in the input folder not containing an underscore
+    icon_file_paths = [f for f in icon_folder_path.iterdir() if f.is_file()]
+
+    # Iterate through each icon file path
+    for icon_file_path in icon_file_paths:
+
+        # Define new icon name
+        new_icon_name = f"_{left_side_accent_color}_" + icon_file_path.name
+
+        # Create output path
+        colored_icon_folder_path = img_output_folder_path / new_icon_name
+
+        # Generate new icon
+        create_colored_icon(
+            icon_file_path, colored_icon_folder_path, left_side_accent_color
+        )
+
+        # Define pattern and replacement
+        pattern = str(Path("icons") / icon_file_path.name)
+        replacement = str(Path("img") / new_icon_name)
+
+        # Replace icon path in CV template
+        CV_template = sub(pattern, replacement, CV_template)
+
+    ########################################################
+    #                 ADJUST COLOR PALETTE                 #
+    ########################################################
 
     # Prepare dictionary and replace values
     for key, value in color_dict.items():
@@ -136,50 +195,6 @@ def create_CV() -> None:
 
         # Execute replacement
         CV_template = sub(pattern, replacement, CV_template)
-
-    ########################################################
-    #                   ADJUST ICON PATH                   #
-    ########################################################
-
-    # Define pattern and replacement
-    pattern = "icons/"
-    replacement = str((project_src_folder_path / "icons").resolve()) + os.sep
-
-    # Execute replacement
-    CV_template = sub(pattern, replacement, CV_template)
-
-    ########################################################
-    #                 CREATE COLORED ICONS                 #
-    ########################################################
-
-    # Get left side accent color
-    left_side_accent_color = color_dict.get("left side accent")
-
-    # icon folder path
-    icon_folder_path = project_src_folder_path / "icons"
-
-    # Get the list of files in the input folder not containing an underscore
-    icon_file_paths = [
-        f for f in icon_folder_path.iterdir() if f.is_file() and "_" not in f.stem
-    ]
-
-    # Iterate through each icon file path
-    for icon_file_path in icon_file_paths:
-
-        # Create output path
-        colored_icon_folder_path = icon_file_path.parent / (
-            f"_{left_side_accent_color}_" + icon_file_path.stem + icon_file_path.suffix
-        )
-
-        # Generate new icon
-        create_colored_icon(
-            icon_file_path, colored_icon_folder_path, left_side_accent_color
-        )
-
-        # Replace icon path in CV template
-        CV_template = sub(
-            str(icon_file_path), str(colored_icon_folder_path), CV_template
-        )
 
     ########################################################
     #          REPLACE PERSONAL INFO AND GEOMETRY          #
@@ -212,7 +227,7 @@ def create_CV() -> None:
 
         # Adjust photo path if it exists
         if key == "photopath" and value:
-            value = (input_folder_path / value).resolve()
+            value = str(Path("img") / Path(value).name)
 
         # Place values inside the template
 
