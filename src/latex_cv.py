@@ -134,7 +134,9 @@ def create_CV() -> None:
 
     # Construct path to profile picture
     photo_path_relative = Path(CV_dict.get("personal info").get("photo path"))
-    photo_path_absolute = (input_folder / photo_path_relative).resolve()
+    photo_path_absolute = (
+        project_root_folder_path / input_folder / photo_path_relative
+    ).resolve()
 
     shutil.copy(photo_path_absolute, img_output_folder_path / photo_path_absolute.name)
 
