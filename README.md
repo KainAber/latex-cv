@@ -27,7 +27,7 @@ qualities:
         - Precision: .8
         - Communication: .9
     - Skills:
-        - Juggling: .80
+        - Juggling: .8
         - Air Guitar: .55
     - Languages:
         - English: .8
