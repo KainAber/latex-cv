@@ -152,7 +152,7 @@ def create_CV() -> None:
     icon_folder_path = project_src_folder_path / "icons"
 
     # Get the list of files in the input folder not containing an underscore
-    icon_file_paths = [f for f in icon_folder_path.iterdir() if f.is_file()]
+    icon_file_paths = [f for f in icon_folder_path.iterdir() if f.suffix == ".png"]
 
     # Iterate through each icon file path
     for icon_file_path in icon_file_paths:
