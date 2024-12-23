@@ -1,5 +1,7 @@
 *
 !/icons
 !latex_cv.py
+!utils.py
+!create.py
 !CV_template.tex
 !example.png

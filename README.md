@@ -235,7 +235,7 @@ This section is going step through each part of the `example.yaml` file which th
 * More socials (suggestions welcome)
 * More controls (e.g. fonts)
 
-## Sources
+## Acknowledgements
 
 * The icons are from [flaticon.com](https://www.flaticon.com/de/):
   * [address](https://www.flaticon.com/free-icon/stift_484167) by [Those Icons](https://www.flaticon.com/authors/those-icons)
